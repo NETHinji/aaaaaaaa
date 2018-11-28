@@ -1,0 +1,86 @@
+interface
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+
+namespace TravellerAccomodationService
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
+    [ServiceContract]
+    public interface ITraAccService
+    {
+
+        [OperationContract]
+        IEnumerable<travelerAccomodation> getAllDetails();
+
+        [OperationContract]
+        travelerAccomodation getDetailsById(int id);
+
+        [OperationContract]
+        bool postDetails(travelerAccomodation tA);
+
+        [OperationContract]
+        bool putDetails(int id,travelerAccomodation tA);
+
+        [OperationContract]
+        bool deleteDetails(int id);
+        
+    }  
+}
+
+
+service
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+
+namespace TravellerAccomodationService
+{
+    public class TraAccService : ITraAccService
+    {
+        TravellerAccomodationEntities db = new TravellerAccomodationEntities();
+        public bool deleteDetails(int id)
+        {
+            db.uspDeleteTravelerDetails(id);
+            return true;
+            //throw new NotImplementedException();
+        }
+
+        public IEnumerable<travelerAccomodation> getAllDetails()
+        {
+            //IEnumerable<travelerAccomodation> tAList = db.uspShowAllTravelerDetails(1).ToList();
+            //return tAList;
+            throw new NotImplementedException();
+        }
+
+        public travelerAccomodation getDetailsById(int id)
+        {
+            //travelerAccomodation tA = db.uspShowTravelerDetailsByID(id);
+            //return tA;
+            throw new NotImplementedException();
+        }
+
+        public bool postDetails(travelerAccomodation tA)
+        {
+            db.uspAddTravelerDetails(tA.travelerName,tA.travelerCID, tA.travelerCOD, tA.travelerStateId,tA.travelerCityId,tA.travelerAddress);
+            return true;
+        }
+
+        public bool putDetails(int id, travelerAccomodation tA)
+        {
+            db.uspUpdateTravelerDetails(id, tA.travelerName, tA.travelerCID, tA.travelerCOD, tA.travelerStateId, tA.travelerCityId, tA.travelerAddress);
+            return true;
+        }
+    }
+}
